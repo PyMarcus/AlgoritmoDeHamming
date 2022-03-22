@@ -29,7 +29,9 @@ class AlgoritmoHamming:
             3 / 2 = 1 (1)
             1 """
         quociente: int = 1
+        valor = self.__algarismo_decimal
         resto: int = 0
+        print(f"Enviando o número {self.__algarismo_decimal}")
         while quociente > 0:
             quociente = self.__algarismo_decimal // 2  # pega o quociente
             resto = self.__algarismo_decimal % 2  # pega o resto
@@ -40,6 +42,7 @@ class AlgoritmoHamming:
         auxiliar: list = []
         for bit in range(len(self.__binario) - 1, -1, -1):
             auxiliar.append(self.__binario[bit])
+        print(f"[*] {valor} convertido para binário: {auxiliar}")
         return auxiliar
 
     def acrescentaPreNumeros(self) -> list:
@@ -187,8 +190,8 @@ class AlgoritmoHamming:
         resultado: list = []
         potencias_2: list = [2 ** num for num in range(len(self.__binario) - 1)]
         if resultado_h3 == 0 and resultado_h1 == 0 and resultado_h3 == 0:
-            print(f"MENSAGEM RECEBIDA COM SUCESSO!\nContent: {hamming}")
-            return hamming
+            print(f"MENSAGEM RECEBIDA COM SUCESSO!\nContent: {hamming}\nValor original transmitido: {self.voltaAoResultado(hamming)}")
+            return str(hamming) + f" Valor original transmitido: {self.voltaAoResultado(hamming)}"
         else:
 
             indentificador: str = str(resultado_h3) + str(resultado_h2) + str(resultado_h1)
@@ -203,8 +206,8 @@ class AlgoritmoHamming:
                 hamming[local_do_erro] = 1
             else:
                 hamming[local_do_erro] = 0
-            print(f"MENSAGEM RECEBIDA COM SUCESSO2!\nContent: {hamming}")
-            return hamming # recursividade
+            print(f"MENSAGEM RECEBIDA COM SUCESSO!\nContent: {hamming}")
+            return str(hamming) + f" Valor original transmitido: {self.voltaAoResultado(hamming)}"
 
     def geraRuido(self) -> int:
         """
@@ -212,6 +215,16 @@ class AlgoritmoHamming:
         :return:
         """
         return random.randint(0, 6)
+
+    def voltaAoResultado(self, hamming) -> int:
+        """
+        Pega o numero de hamming e volta ao original
+        :return: -> int
+        """
+        novo_vetor: list = [hamming[2], hamming[4], hamming[5], hamming[6]]
+        novo_vetor.reverse()
+        decimal = sum([(2 ** num) * novo_vetor[num] for num in range(len(novo_vetor))])
+        return decimal
 
     def servidor(self, ip, port):
         """
