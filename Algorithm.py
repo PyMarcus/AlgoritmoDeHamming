@@ -187,22 +187,24 @@ class AlgoritmoHamming:
         resultado: list = []
         potencias_2: list = [2 ** num for num in range(len(self.__binario) - 1)]
         if resultado_h3 == 0 and resultado_h1 == 0 and resultado_h3 == 0:
-            valor = self.__binario
-            print(f"MENSAGEM RECEBIDA COM SUCESSO!\nContent: {self.__binario}")
-            return self.__binario
+            print(f"MENSAGEM RECEBIDA COM SUCESSO!\nContent: {hamming}")
+            return hamming
         else:
-            print("PASSEI POR AQUI")
-            indentificador: str = str(resultado_h1) + str(resultado_h2) + str(resultado_h3)
+
+            indentificador: str = str(resultado_h3) + str(resultado_h2) + str(resultado_h1)
             local_do_erro: int = 0
+
             for index, valor in enumerate(posicoes):
                 if valor == indentificador:
+                    print(index, valor)
                     local_do_erro = index
                     break
             if hamming[local_do_erro] == 0:
                 hamming[local_do_erro] = 1
             else:
                 hamming[local_do_erro] = 0
-            algoritmo.verificacaoReceptor(hamming)  # recursividade
+            print(f"MENSAGEM RECEBIDA COM SUCESSO2!\nContent: {hamming}")
+            return hamming # recursividade
 
     def geraRuido(self) -> int:
         """
@@ -226,7 +228,7 @@ class AlgoritmoHamming:
         print(f"[*] Escutando no endereço {host, port}")
         while True:
             soc, addr = sock.accept()
-            print(f"[*] Conectado ao cliente {addr}")
+
             try:
                 while True:
                     msg = soc.recv(2024).decode()  # 1024 bytes
@@ -250,11 +252,7 @@ class AlgoritmoHamming:
         """
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # cliente tcp
         sock.connect((ip, port))  # ip e porta do servidor
-        self.converteBinario()
-        self.acrescentaPreNumeros()
-        print("AQ1", self.__binario[:len(self.__binario) -1])
         msg: bytes = str(self.incrementaNumHamming()).encode()
-        print(msg)
         sock.sendall(msg)
         resposta: str = ""
         resposta += sock.recv(2024).decode()
@@ -283,13 +281,13 @@ class ArgumentLine:
 
 
 if __name__ == '__main__':
-    algoritmo = AlgoritmoHamming(13)
+    """ algoritmo = AlgoritmoHamming(13)
     algoritmo.verificacaoReceptor("")
-    algoritmo.geraRuido()
+    algoritmo.geraRuido()"""
 
-    """algoritmo = AlgoritmoHamming(13)
+    algoritmo = AlgoritmoHamming(13)
     choices: dict = {
         "servidor": algoritmo.servidor,
         "cliente": algoritmo.client
     }
-    ArgumentLine.arg(choices=choices)"""
+    ArgumentLine.arg(choices=choices)
